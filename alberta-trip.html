@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#12232A">
+<title>Alberta · Jul 30 – Aug 5</title>
+<style>
+  :root{
+    --paper:#EDF1F0;
+    --card:#FFFFFF;
+    --ink:#12232A;
+    --stone:#5E7278;
+    --hair:#CBD6D6;
+    --glacier:#1F7A8C;
+    --glacier-soft:#E2EEF0;
+    --oxide:#A8412A;
+    --oxide-soft:#F7E8E4;
+    --display:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--display);
+    font-size:16px;
+    line-height:1.5;
+    -webkit-text-size-adjust:100%;
+    padding-bottom:calc(28px + env(safe-area-inset-bottom));
+  }
+
+  /* ---------- masthead ---------- */
+  header{
+    position:sticky;top:0;z-index:20;
+    background:var(--ink);
+    padding:calc(14px + env(safe-area-inset-top)) 0 0;
+  }
+  .brand{
+    padding:0 18px 12px;
+    display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+  }
+  .brand h1{
+    margin:0;
+    font-size:19px;font-weight:800;letter-spacing:-.02em;
+    color:#fff;
+  }
+  .brand span{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;
+    text-transform:uppercase;color:#7FA5AD;white-space:nowrap;
+  }
+
+  /* ---------- day rail ---------- */
+  .rail{
+    display:flex;gap:8px;overflow-x:auto;
+    padding:0 18px calc(14px);
+    scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  }
+  .rail::-webkit-scrollbar{display:none;}
+  .chip{
+    flex:0 0 auto;appearance:none;cursor:pointer;
+    background:transparent;color:#8FB3BA;
+    border:1px solid #2C4650;border-radius:2px;
+    padding:8px 12px 7px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.07em;
+    text-transform:uppercase;line-height:1.25;text-align:left;
+    transition:background .16s,color .16s,border-color .16s;
+  }
+  .chip b{display:block;font-size:13px;font-weight:700;letter-spacing:.02em;color:#CFE2E5;}
+  .chip[aria-selected="true"]{
+    background:var(--glacier);border-color:var(--glacier);color:#CDEAF0;
+  }
+  .chip[aria-selected="true"] b{color:#fff;}
+  .chip:focus-visible{outline:2px solid #7FD3E4;outline-offset:2px;}
+
+  /* ---------- day panel ---------- */
+  main{padding:22px 18px 0;max-width:620px;margin:0 auto;}
+  .eyebrow{
+    font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--glacier);margin:0 0 6px;
+  }
+  h2{
+    margin:0 0 14px;font-size:29px;line-height:1.1;
+    font-weight:800;letter-spacing:-.028em;
+  }
+
+  /* route + bed strip */
+  .strip{
+    display:flex;flex-direction:column;gap:1px;
+    background:var(--hair);border:1px solid var(--hair);border-radius:3px;
+    overflow:hidden;margin-bottom:22px;
+  }
+  .strip div{
+    background:var(--card);padding:10px 13px;
+    display:flex;gap:10px;align-items:flex-start;
+  }
+  .strip dt{
+    flex:0 0 54px;margin:0;
+    font-family:var(--mono);font-size:10px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--stone);padding-top:2px;
+  }
+  .strip dd{margin:0;font-size:14.5px;line-height:1.4;}
+  .strip dd em{font-style:normal;color:var(--stone);}
+
+  /* ---------- trail of time blocks ---------- */
+  .trail{list-style:none;margin:0;padding:0 0 0 21px;position:relative;}
+  .trail::before{
+    content:"";position:absolute;left:4px;top:9px;bottom:14px;
+    width:1px;background:var(--hair);
+  }
+  .trail li{position:relative;padding:0 0 24px;}
+  .trail li::before{
+    content:"";position:absolute;left:-21px;top:6px;
+    width:9px;height:9px;border-radius:50%;
+    background:var(--paper);border:2px solid var(--glacier);
+  }
+  .clock{
+    font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--glacier);
+    display:block;margin-bottom:3px;
+  }
+  .trail h3{
+    margin:0 0 5px;font-size:17px;font-weight:700;letter-spacing:-.015em;
+  }
+  .trail p{margin:0 0 7px;font-size:15px;color:#2C4148;}
+  .trail p:last-child{margin-bottom:0;}
+
+  .stops{list-style:none;margin:0;padding:0;}
+  .stops li{padding:0 0 4px;font-size:15px;}
+  .stops li::before{display:none;}
+  .stops a{
+    color:var(--glacier);text-decoration:none;
+    border-bottom:1px solid var(--glacier-soft);
+    font-weight:600;
+  }
+  .stops a::after{content:" ↗";font-size:11px;opacity:.65;}
+  .stops em{font-style:normal;color:var(--stone);}
+
+  /* ---------- callout ---------- */
+  .warn{
+    background:var(--oxide-soft);
+    border-left:3px solid var(--oxide);
+    border-radius:0 3px 3px 0;
+    padding:11px 13px;margin:12px 0 0;
+  }
+  .warn strong{
+    display:block;font-family:var(--mono);font-size:10.5px;
+    letter-spacing:.09em;text-transform:uppercase;
+    color:var(--oxide);margin-bottom:4px;
+  }
+  .warn p{margin:0 0 6px;font-size:14.5px;color:#3D2019;line-height:1.45;}
+  .warn p:last-child{margin-bottom:0;}
+
+  /* ---------- prep checklist ---------- */
+  .checks{list-style:none;margin:0;padding:0;}
+  .checks li{
+    display:flex;gap:11px;align-items:flex-start;
+    background:var(--card);border:1px solid var(--hair);
+    border-radius:3px;padding:12px 13px;margin-bottom:8px;
+  }
+  .checks input{
+    flex:0 0 auto;width:21px;height:21px;margin:0;
+    accent-color:var(--glacier);
+  }
+  .checks label{font-size:15px;line-height:1.4;}
+  .checks label b{display:block;font-weight:700;}
+  .checks label em{font-style:normal;color:var(--stone);font-size:14px;}
+
+  /* ---------- pager ---------- */
+  nav.pager{
+    display:flex;gap:8px;margin:8px 0 0;
+  }
+  nav.pager button{
+    flex:1;appearance:none;cursor:pointer;
+    background:var(--card);color:var(--ink);
+    border:1px solid var(--hair);border-radius:3px;
+    padding:14px 10px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+  nav.pager button:disabled{opacity:.35;cursor:default;}
+  nav.pager button:focus-visible{outline:2px solid var(--glacier);outline-offset:2px;}
+
+  footer{
+    margin:26px 0 0;padding-top:16px;border-top:1px solid var(--hair);
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--stone);line-height:1.7;
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <h1>Alberta Rockies</h1>
+    <span>Jul 30 – Aug 5</span>
+  </div>
+  <div class="rail" id="rail" role="tablist" aria-label="Trip days"></div>
+</header>
+
+<main>
+  <div id="panel" role="tabpanel"></div>
+  <nav class="pager">
+    <button id="prev" type="button">‹ Previous</button>
+    <button id="next" type="button">Next ›</button>
+  </nav>
+  <footer>
+    Nima &amp; Armin · 3 national parks · Banff, Yoho, Kananaskis<br>
+    Times are targets, not deadlines
+  </footer>
+</main>
+
+<script>
+const M = q => "https://maps.apple.com/?q=" + encodeURIComponent(q);
+
+const DAYS = [
+  {
+    chip:"Prep", chipSub:"Before",
+    eyebrow:"Do this first",
+    title:"Before you leave",
+    blocks:[{
+      clock:"Book now",
+      checklist:[
+        {t:"Rental car", n:"Nothing in this plan works without one — no practical transit between Calgary, Banff and Castle Junction."},
+        {t:"Parks Canada shuttle — Aug 1", n:"Moraine Lake has no private vehicle access in summer. Reserved shuttle only."},
+        {t:"Banff Gondola tickets — Jul 31", n:"Sells out day-of in peak season."},
+        {t:"Park pass", n:"Buy online or at the Banff gate on the way in. Covers Banff, Yoho, Kootenay."},
+        {t:"Groceries for Aug 1", n:"HI Castle Mountain is remote with no restaurants nearby. Buy dinner in Banff or Lake Louise."}
+      ]
+    }]
+  },
+  {
+    chip:"Jul 30", chipSub:"Thu", date:"2026-07-30",
+    eyebrow:"Day 1 · Thursday",
+    title:"Land & settle",
+    route:"YYC → NW Calgary · 25 min",
+    bed:"My Home, NW Calgary",
+    blocks:[
+      {clock:"20:25", h:"Wheels down at YYC",
+       p:"Pick up the rental car at the airport before anything else — desks close late but not all night."},
+      {clock:"Evening", h:"Drive to the room",
+       p:"About 25 minutes northwest. Grab late food on the way; kitchens in that area close early.",
+       stops:[["My Home · 5004 Brisebois Dr NW","5004 Brisebois Drive NW, Calgary"]]},
+      {clock:"Night", h:"Sleep",
+       p:"Nothing else on today. Tomorrow starts the driving."}
+    ]
+  },
+  {
+    chip:"Jul 31", chipSub:"Fri", date:"2026-07-31",
+    eyebrow:"Day 2 · Friday",
+    title:"Banff townsite",
+    route:"Calgary → Banff · 1 hr 30",
+    bed:"HI Banff Alpine Centre · reception 24 hrs",
+    blocks:[
+      {clock:"Morning", h:"Calgary to Banff",
+       p:"Check out and head west on Highway 1. Stop at the park gate to buy your pass if you haven't already.",
+       stops:[["Banff National Park east gate","Banff National Park East Gate"]]},
+      {clock:"Midday", h:"Up Sulphur Mountain",
+       p:"The gondola drops you at a summit boardwalk with the best single view of the whole Bow Valley.",
+       stops:[["Banff Gondola","Banff Gondola"]],
+       warn:{t:"Book ahead", p:["Gondola tickets sell out on the day in peak season."]}},
+      {clock:"Afternoon", h:"Three short stops in town",
+       stops:[
+         ["Bow Falls","Bow Falls Banff"],
+         ["Surprise Corner","Surprise Corner Viewpoint Banff"],
+         ["Cave and Basin","Cave and Basin National Historic Site"]
+       ],
+       p:"Surprise Corner is the classic Banff Springs Hotel shot. Cave and Basin is where Canada's national park system started — small site, worth the 30 minutes."},
+      {clock:"Evening", h:"Lakes at golden hour",
+       stops:[
+         ["Lake Minnewanka","Lake Minnewanka"],
+         ["Two Jack Lake","Two Jack Lake Banff"],
+         ["Vermilion Lakes","Vermilion Lakes Banff"]
+       ],
+       p:"Minnewanka and Two Jack are 20 minutes from town. Finish at Vermilion Lakes for sunset — still water, mountains doubled in the reflection, best light you'll get all day."}
+    ]
+  },
+  {
+    chip:"Aug 1", chipSub:"Sat", date:"2026-08-01",
+    eyebrow:"Day 3 · Saturday",
+    title:"Lake Louise & Moraine",
+    route:"Banff → Lake Louise → Castle Junction · ~1 hr driving",
+    bed:"HI Castle Mountain Wilderness Hostel",
+    blocks:[
+      {clock:"Before 08:00", h:"Leave early",
+       p:"Check-out is 11am but don't wait for it. Drive to the Lake Louise Park & Ride and catch the shuttle.",
+       stops:[["Lake Louise Park & Ride","Lake Louise Park and Ride"]],
+       warn:{t:"Shuttle required",p:["Moraine Lake is closed to personal vehicles. If the shuttle isn't reserved, you cannot get there — sort this before the trip."]}},
+      {clock:"Morning", h:"Moraine Lake first",
+       p:"Do Moraine before Lake Louise — the light is better early and the crowds are thinner. Walk up the Rockpile Trail for the Valley of the Ten Peaks view.",
+       stops:[["Moraine Lake","Moraine Lake"]]},
+      {clock:"Afternoon", h:"Lake Louise",
+       p:"Shuttle over. The flat lakeshore walk takes an hour. If you both have the legs for it, climb to the Lake Agnes Teahouse instead — roughly 3.5 hours return, and the payoff is real.",
+       stops:[["Lake Louise","Lake Louise Banff"],["Lake Agnes Teahouse","Lake Agnes Teahouse"]]},
+      {clock:"Late day", h:"Johnston Canyon on the way",
+       p:"Catwalks bolted into the canyon wall lead to the Lower and Upper Falls. Only about 10 minutes from tonight's hostel.",
+       stops:[["Johnston Canyon","Johnston Canyon Banff"]]},
+      {clock:"17:00–22:00", h:"Check in at Castle Mountain",
+       stops:[["HI Castle Mountain","HI Castle Mountain Wilderness Hostel Banff"]],
+       warn:{t:"Two hard constraints",p:[
+         "Reception is open 5pm to 10pm only. Miss that window and you're locked out.",
+         "It's a remote wilderness hostel — no restaurants anywhere near. Buy dinner groceries in Banff or Lake Louise before you drive out."]}},
+      {clock:"Worth checking", h:"Bow Valley Parkway access",
+       p:"Parks Canada sometimes restricts vehicles on sections of the Parkway in summer. Confirm the Johnston Canyon to Castle Junction stretch is open to cars for your dates before you commit to this routing."}
+    ]
+  },
+  {
+    chip:"Aug 2", chipSub:"Sun", date:"2026-08-02",
+    eyebrow:"Day 4 · Sunday",
+    title:"Icefields Parkway",
+    route:"Castle Junction → Columbia Icefield → Banff · ~5 hrs driving",
+    bed:"HI Banff · private 4-bed, just the two of you",
+    blocks:[
+      {clock:"07:00", h:"Head north on Highway 93",
+       p:"Your best-positioned morning of the trip — Castle Junction sits 30 minutes closer to the Parkway than Banff does. Use the head start."},
+      {clock:"Morning", h:"Two glacier-fed lakes",
+       stops:[["Bow Lake","Bow Lake Banff"],["Peyto Lake","Peyto Lake"]],
+       p:"Bow Lake is roadside. Peyto is a short walk to an overlook and the colour is the most extreme on the entire drive — almost artificial-looking turquoise."},
+      {clock:"Midday", h:"Columbia Icefield",
+       p:"Around 2.5 hours from Castle Junction. Walk the trail toward the glacier toe for free, or pay for the Ice Explorer to actually drive out onto the ice.",
+       stops:[["Athabasca Glacier","Columbia Icefield Athabasca Glacier"]]},
+      {clock:"Afternoon", h:"Turn south, stop twice",
+       stops:[["Mistaya Canyon","Mistaya Canyon"],["Waterfowl Lakes","Waterfowl Lakes Banff"]],
+       p:"Both are quick pull-offs and both are worth it. Mistaya is a narrow slot canyon you'd drive straight past."},
+      {clock:"Evening", h:"Back to Banff",
+       p:"Roughly 3 hours south. Dinner on Banff Avenue, then the private room — the one night of the trip that's actually just you two."}
+    ]
+  },
+  {
+    chip:"Aug 3", chipSub:"Mon", date:"2026-08-03",
+    eyebrow:"Day 5 · Monday",
+    title:"Yoho National Park",
+    route:"Banff → Yoho, BC → Banff · ~2 hrs driving",
+    bed:"HI Banff Alpine Centre · shared dorm",
+    blocks:[
+      {clock:"Morning", h:"Takakkaw Falls",
+       p:"An hour west, across into British Columbia. One of the tallest waterfalls in Canada and you can walk close enough to get soaked by the spray.",
+       stops:[["Takakkaw Falls","Takakkakaw Falls Yoho National Park"]]},
+      {clock:"Midday", h:"Emerald Lake",
+       p:"Rent a canoe, or walk the easy 5 km loop around the shore. Quieter than anything in Banff and just as photogenic.",
+       stops:[["Emerald Lake","Emerald Lake Yoho National Park"]]},
+      {clock:"Afternoon", h:"Two quick curiosities",
+       stops:[["Natural Bridge","Natural Bridge Yoho National Park"],["Spiral Tunnels viewpoint","Spiral Tunnels Yoho"]],
+       p:"The Natural Bridge is the Kicking Horse River carving straight through rock. The Spiral Tunnels are a railway engineering trick — time it right and you'll watch a freight train enter and exit the same mountain."},
+      {clock:"Evening", h:"Hot springs",
+       p:"Drive back and soak at Banff Upper Hot Springs. After three days of hiking this is the correct decision.",
+       stops:[["Banff Upper Hot Springs","Banff Upper Hot Springs"]]}
+    ]
+  },
+  {
+    chip:"Aug 4", chipSub:"Tue", date:"2026-08-04",
+    eyebrow:"Day 6 · Tuesday",
+    title:"Kananaskis on the way out",
+    route:"Banff → Canmore → Kananaskis → Calgary · ~2 hrs 30",
+    bed:"My Home, NW Calgary",
+    blocks:[
+      {clock:"Morning", h:"Grassi Lakes",
+       p:"Check out at 11am, drive 20 minutes to Canmore. About 4 km return, moderate grade, and the pools at the top are the same impossible turquoise as the big-name lakes — with a fraction of the people.",
+       stops:[["Grassi Lakes","Grassi Lakes Canmore"]]},
+      {clock:"Afternoon", h:"South on Highway 40",
+       stops:[["Barrier Lake","Barrier Lake Kananaskis"],["Wedge Pond","Wedge Pond Kananaskis"],["Highwood Pass","Highwood Pass Kananaskis"]],
+       p:"Kananaskis is where locals go to avoid Banff. Same mountains, almost no tour buses. Highwood Pass is the highest paved road in Canada."},
+      {clock:"Evening", h:"Into Calgary",
+       p:"About an hour from Kananaskis. Check in, repack, and get the car sorted for tomorrow's return."}
+    ]
+  },
+  {
+    chip:"Aug 5", chipSub:"Wed", date:"2026-08-05",
+    eyebrow:"Day 7 · Wednesday",
+    title:"Calgary, then home",
+    route:"Calgary → YYC · 25 min",
+    bed:"—",
+    blocks:[
+      {clock:"Morning", h:"Downtown",
+       stops:[["Calgary Tower","Calgary Tower"],["Stephen Avenue","Stephen Avenue Walk Calgary"]],
+       p:"Check out at 11am. The tower's glass floor is worth the elevator ride; Stephen Ave is a pedestrian strip for lunch afterwards."},
+      {clock:"Afternoon", h:"Pick one",
+       stops:[["Studio Bell","Studio Bell National Music Centre Calgary"],["Heritage Park","Heritage Park Historical Village Calgary"],["Prince's Island Park","Prince's Island Park Calgary"]],
+       p:"Studio Bell if you want something indoors and strange. Heritage Park if you want a half-day. Prince's Island if you'd rather do nothing at all before a long flight."},
+      {clock:"~17:30", h:"Return the car",
+       p:"Drop the rental, shuttle to the terminal, clear security.",
+       warn:{t:"Don't cut this fine",p:["Rental returns plus bag drop plus security eats more time than you think on a summer evening."]}},
+      {clock:"20:40", h:"WS242 to Winnipeg",
+       p:"Lands 23:40. Home."}
+    ]
+  }
+];
+
+const rail = document.getElementById("rail");
+const panel = document.getElementById("panel");
+const prevBtn = document.getElementById("prev");
+const nextBtn = document.getElementById("next");
+let active = 0;
+
+DAYS.forEach((d,i)=>{
+  const b = document.createElement("button");
+  b.className = "chip";
+  b.type = "button";
+  b.setAttribute("role","tab");
+  b.innerHTML = "<b>"+d.chip+"</b>"+d.chipSub;
+  b.addEventListener("click",()=>show(i,true));
+  rail.appendChild(b);
+});
+
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+
+function warnHTML(w){
+  return '<div class="warn"><strong>'+esc(w.t)+'</strong>'
+    + w.p.map(x=>"<p>"+esc(x)+"</p>").join("") + "</div>";
+}
+
+function blockHTML(bl){
+  let h = '<li><span class="clock">'+esc(bl.clock)+"</span>";
+  if(bl.h) h += "<h3>"+esc(bl.h)+"</h3>";
+  if(bl.stops){
+    h += '<ul class="stops">' + bl.stops.map(s=>
+      '<li><a href="'+M(s[1])+'" target="_blank" rel="noopener">'+esc(s[0])+"</a></li>"
+    ).join("") + "</ul>";
+  }
+  if(bl.p) h += "<p>"+esc(bl.p)+"</p>";
+  if(bl.checklist){
+    h += '<ul class="checks">' + bl.checklist.map((c,i)=>
+      '<li><input type="checkbox" id="ck'+i+'"><label for="ck'+i+'"><b>'
+      + esc(c.t)+"</b><em>"+esc(c.n)+"</em></label></li>"
+    ).join("") + "</ul>";
+  }
+  if(bl.warn) h += warnHTML(bl.warn);
+  return h + "</li>";
+}
+
+function show(i,scroll){
+  active = i;
+  const d = DAYS[i];
+  let html = '<p class="eyebrow">'+esc(d.eyebrow)+"</p><h2>"+esc(d.title)+"</h2>";
+  if(d.route || d.bed){
+    html += '<dl class="strip">';
+    if(d.route) html += "<div><dt>Drive</dt><dd>"+esc(d.route)+"</dd></div>";
+    if(d.bed)   html += "<div><dt>Sleep</dt><dd>"+esc(d.bed)+"</dd></div>";
+    html += "</dl>";
+  }
+  html += '<ul class="trail">' + d.blocks.map(blockHTML).join("") + "</ul>";
+  panel.innerHTML = html;
+
+  [...rail.children].forEach((c,n)=>c.setAttribute("aria-selected", n===i ? "true":"false"));
+  prevBtn.disabled = i===0;
+  nextBtn.disabled = i===DAYS.length-1;
+  if(scroll) window.scrollTo({top:0,behavior:"smooth"});
+  rail.children[i].scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
+}
+
+prevBtn.addEventListener("click",()=>{ if(active>0) show(active-1,true); });
+nextBtn.addEventListener("click",()=>{ if(active<DAYS.length-1) show(active+1,true); });
+
+// open on today's leg if the trip is underway, otherwise on the prep list
+const today = new Date().toISOString().slice(0,10);
+const match = DAYS.findIndex(d=>d.date===today);
+show(match >= 0 ? match : 0, false);
+</script>
+</body>
+</html>
