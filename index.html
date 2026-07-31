@@ -228,10 +228,12 @@ const DAYS = [
       clock:"Book now",
       checklist:[
         {t:"Rental car", n:"Nothing in this plan works without one — no practical transit between Calgary, Banff and Castle Junction."},
-        {t:"Parks Canada shuttle — Aug 1", n:"Moraine Lake has no private vehicle access in summer. Reserved shuttle only."},
+        {t:"Parks Canada shuttle — Aug 1", n:"Moraine Lake has no private vehicle access. Reserved shuttle only, no walk-ups. reservation.pc.gc.ca (Day Use) or 1-877-737-3783. $8/adult + $3.50 fee. Backup: Moraine Lake Bus Company."},
         {t:"Banff Gondola tickets — Jul 31", n:"Sells out day-of in peak season."},
-        {t:"Park pass", n:"Buy online or at the Banff gate on the way in. Covers Banff, Yoho, Kootenay."},
-        {t:"Groceries for Aug 1", n:"HI Castle Mountain is remote with no restaurants nearby. Buy dinner in Banff or Lake Louise."}
+        {t:"Park pass — NOT needed", n:"Canada Strong Pass makes admission free June 19 – Sept 7, 2026. Covers Banff, Yoho, Jasper. Nothing to buy or show. Parking and shuttles still cost money."},
+        {t:"Kananaskis Conservation Pass — Aug 4", n:"$15/day, provincial so the free admission does NOT cover it. Register the rental's plate online. Parking without it is a $150 fine."},
+        {t:"Offline maps", n:"Download the Banff–Jasper area in Google/Apple Maps before Aug 2. No cell service on the Icefields Parkway."},
+        {t:"Groceries for Aug 1", n:"HI Castle Mountain is remote. There's a general store at Castle Junction but it's thin — buy real dinner in Banff or Lake Louise."}
       ]
     }]
   },
@@ -259,8 +261,8 @@ const DAYS = [
     bed:"HI Banff Alpine Centre · reception 24 hrs",
     blocks:[
       {clock:"Morning", h:"Calgary to Banff",
-       p:"Check out and head west on Highway 1. Stop at the park gate to buy your pass if you haven't already.",
-       stops:[["Banff National Park east gate","Banff National Park East Gate"]]},
+       p:"Check out and head west on Highway 1. No need to stop at the park gate — admission is free all summer under the Canada Strong Pass.",
+       stops:[["Banff townsite","Banff Alberta"]]},
       {clock:"Midday", h:"Up Sulphur Mountain",
        p:"The gondola drops you at a summit boardwalk with the best single view of the whole Bow Valley.",
        stops:[["Banff Gondola","Banff Gondola"]],
@@ -291,7 +293,10 @@ const DAYS = [
       {clock:"Before 08:00", h:"Leave early",
        p:"Check-out is 11am but don't wait for it. Drive to the Lake Louise Park & Ride and catch the shuttle.",
        stops:[["Lake Louise Park & Ride","Lake Louise Park and Ride"]],
-       warn:{t:"Shuttle required",p:["Moraine Lake is closed to personal vehicles. If the shuttle isn't reserved, you cannot get there — sort this before the trip."]}},
+       warn:{t:"Shuttle required — no walk-ups",p:[
+         "Moraine Lake is closed to personal vehicles. Without a reservation you cannot get there.",
+         "If space remains you can still book up to 30 minutes before departure: reservation.pc.gc.ca (Day Use) or 1-877-737-3783.",
+         "Screenshot the reservation — signal at the Park & Ride is unreliable."]}},
       {clock:"Morning", h:"Moraine Lake first",
        p:"Do Moraine before Lake Louise — the light is better early and the crowds are thinner. Walk up the Rockpile Trail for the Valley of the Ten Peaks view.",
        stops:[["Moraine Lake","Moraine Lake"]]},
@@ -305,9 +310,9 @@ const DAYS = [
        stops:[["HI Castle Mountain","HI Castle Mountain Wilderness Hostel Banff"]],
        warn:{t:"Two hard constraints",p:[
          "Reception is open 5pm to 10pm only. Miss that window and you're locked out.",
-         "It's a remote wilderness hostel — no restaurants anywhere near. Buy dinner groceries in Banff or Lake Louise before you drive out."]}},
-      {clock:"Worth checking", h:"Bow Valley Parkway access",
-       p:"Parks Canada sometimes restricts vehicles on sections of the Parkway in summer. Confirm the Johnston Canyon to Castle Junction stretch is open to cars for your dates before you commit to this routing."}
+         "It's a remote wilderness hostel. There's a gas station and general store at Castle Junction, but the selection is thin — buy real dinner in Banff or Lake Louise before you drive out."]}},
+      {clock:"Note", h:"Bow Valley Parkway is open",
+       p:"Confirmed clear for your dates — the seasonal vehicle restrictions run Apr 30–Jun 25 and Sep 1–Oct 6 only. Drive it freely. Fill the tank at Lake Louise or Castle Junction tonight, ready for tomorrow."}
     ]
   },
   {
@@ -318,7 +323,11 @@ const DAYS = [
     bed:"HI Banff · private 4-bed, just the two of you",
     blocks:[
       {clock:"07:00", h:"Head north on Highway 93",
-       p:"Your best-positioned morning of the trip — Castle Junction sits 30 minutes closer to the Parkway than Banff does. Use the head start."},
+       p:"Your best-positioned morning of the trip — Castle Junction sits 30 minutes closer to the Parkway than Banff does. Use the head start.",
+       warn:{t:"Full tank, no signal",p:[
+         "Saskatchewan River Crossing is the ONLY gas station on the Parkway and charges a heavy premium. Fuel up before you leave.",
+         "There is no cell service for the whole drive. Maps must be downloaded offline in advance — the links in this file won't load up there.",
+         "Check 511 Alberta before setting off; wildfire and weather closures have hit this road in past summers."]}},
       {clock:"Morning", h:"Two glacier-fed lakes",
        stops:[["Bow Lake","Bow Lake Banff"],["Peyto Lake","Peyto Lake"]],
        p:"Bow Lake is roadside. Peyto is a short walk to an overlook and the colour is the most extreme on the entire drive — almost artificial-looking turquoise."},
@@ -341,7 +350,7 @@ const DAYS = [
     blocks:[
       {clock:"Morning", h:"Takakkaw Falls",
        p:"An hour west, across into British Columbia. One of the tallest waterfalls in Canada and you can walk close enough to get soaked by the spray.",
-       stops:[["Takakkaw Falls","Takakkakaw Falls Yoho National Park"]]},
+       stops:[["Takakkaw Falls","Takakkaw Falls Yoho National Park"]]},
       {clock:"Midday", h:"Emerald Lake",
        p:"Rent a canoe, or walk the easy 5 km loop around the shore. Quieter than anything in Banff and just as photogenic.",
        stops:[["Emerald Lake","Emerald Lake Yoho National Park"]]},
@@ -365,7 +374,11 @@ const DAYS = [
        stops:[["Grassi Lakes","Grassi Lakes Canmore"]]},
       {clock:"Afternoon", h:"South on Highway 40",
        stops:[["Barrier Lake","Barrier Lake Kananaskis"],["Wedge Pond","Wedge Pond Kananaskis"],["Highwood Pass","Highwood Pass Kananaskis"]],
-       p:"Kananaskis is where locals go to avoid Banff. Same mountains, almost no tour buses. Highwood Pass is the highest paved road in Canada."},
+       p:"Kananaskis is where locals go to avoid Banff. Same mountains, almost no tour buses. Highwood Pass is the highest paved road in Canada — but it's an hour further south, so drop it if you're running late.",
+       warn:{t:"Conservation Pass required",p:[
+         "Kananaskis is provincial, not Parks Canada — the free summer admission does NOT apply here.",
+         "$15/day, bought online and registered to the rental's licence plate. Parking without one is a $150 fine.",
+         "Not needed if you only drive through without parking, or in the Town of Canmore."]}},
       {clock:"Evening", h:"Into Calgary",
        p:"About an hour from Kananaskis. Check in, repack, and get the car sorted for tomorrow's return."}
     ]
